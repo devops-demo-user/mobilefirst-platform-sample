@@ -1,0 +1,37 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{cae68434-62ff-4671-ad53-d1ca8cd95c40}") = "MFP_Test_Application.Windows8", "MFP_Test_Application.Windows8\MFP_Test_Application.Windows8.jsproj", "{cae68434-62ff-4671-ad53-d1ca8cd95c40}"
+EndProject
+Project("{cae68434-62ff-4671-ad53-d1ca8cd95c40}") = "MFP_Test_Application.WindowsPhone8", "MFP_Test_Application.WindowsPhone8\MFP_Test_Application.WindowsPhone8.jsproj", "{cae68434-62ff-4671-ad53-d1ca8cd95c40}"
+EndProject
+Project("{cae68434-62ff-4671-ad53-d1ca8cd95c40}") = "MFP_Test_Application.Shared", "MFP_Test_Application.Shared\MFP_Test_Application.Shared.shproj", "{cae68434-62ff-4671-ad53-d1ca8cd95c40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution		
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|ARM.ActiveCfg = Debug|ARM
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|ARM.Build.0 = Debug|ARM
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|ARM.Deploy.0 = Debug|ARM		
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|x86.ActiveCfg = Debug|x86
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|x86.Build.0 = Debug|x86
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Debug|x86.Deploy.0 = Debug|x86
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|ARM.ActiveCfg = Release|ARM
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|ARM.Build.0 = Release|ARM
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|ARM.Deploy.0 = Release|ARM
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|x86.ActiveCfg = Release|x86
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|x86.Build.0 = Release|x86
+		{cae68434-62ff-4671-ad53-d1ca8cd95c40}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection	
+EndGlobal

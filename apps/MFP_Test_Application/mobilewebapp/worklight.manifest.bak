@@ -1,0 +1,32 @@
+CACHE MANIFEST
+# Created: 2015-07-17 08:34:51 UTC
+# Modifying this file is possible only when the Cache Manifest value in the application descriptor is set to "Managed by user"
+css/main.css
+filelist
+images/icon.png
+images/icon114x114.png
+images/icon57x57.png
+images/icon72x72.png
+images/thumbnail.png
+index.html
+js/initOptions.js
+js/main.js
+js/messages.js
+worklight/messages/de/messages.json
+worklight/messages/es/messages.json
+worklight/messages/fr/messages.json
+worklight/messages/he/messages.json
+worklight/messages/it/messages.json
+worklight/messages/ja/messages.json
+worklight/messages/ko/messages.json
+worklight/messages/messages.json
+worklight/messages/pt-BR/messages.json
+worklight/messages/ru/messages.json
+worklight/messages/zh-TW/messages.json
+worklight/messages/zh/messages.json
+worklight/wljq.js
+worklight/worklight.css
+worklight/worklight.js
+
+NETWORK:
+*

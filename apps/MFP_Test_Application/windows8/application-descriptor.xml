@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Licensed Materials - Property of IBM
+			 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+			 US Government Users Restricted Rights - Use, duplication or
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="MFP_Test_Application" platformVersion="7.1.0.00.20150710-0630">
+    <displayName>MFP_Test_Application</displayName>
+    <description>MFP_Test_Application</description>
+    <author>
+        <name>application's author</name>
+        <email>application author's e-mail</email>
+        <homepage>http://mycompany.com</homepage>
+        <copyright>Copyright My Company</copyright>
+    </author>
+    <mainFile>index.html</mainFile>
+    <features/>
+    <targetCategory>UNDEFINED</targetCategory>
+    <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
+    <iphone bundleId="com.MFPTestApplication" version="1.0">
+        <worklightSettings include="false"/>
+        <security>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+        </security>
+    </iphone>
+    <userIdentityRealms/>
+    <accessTokenExpiration>3600</accessTokenExpiration>
+    <android version="1.0">
+        <worklightSettings include="false"/>
+        <security>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+            <publicSigningKey/>
+            <packageName/>
+        </security>
+    </android>
+    <mobileWebApp cacheManifest="no-use"/>
+    <windows8 version="1.0">
+        <description>windows8 is the identifier for Windows Desktop Universal app</description>
+        <uuid>1149cde8-d57a-43a0-83ad-e817a6b46607</uuid>
+    </windows8>
+    <windowsphoneuniversal version="1.0">
+        <description>windowsphoneuniversal is the identifier for Windows Phone Universal</description>
+        <uuid>c35d4608-8d61-4bec-9af8-317a0f3a7a6a</uuid>
+    </windowsphoneuniversal>
+</application>

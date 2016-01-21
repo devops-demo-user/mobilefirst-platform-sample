@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="help">
+
+  <property file="build.properties"/>
+
+  <!-- Default obfuscation properties -->
+  <!--
+  <property name="worklight.buildsettings.target.minifyResources" value="false"/>
+  <property name="worklight.buildsettings.target.concatenate" value="false"/>
+  -->
+  <!-- specify properties in this file or loaded from build.properties
+  <property name="worklight.server.install.dir" value=""/>
+  <property name="worklight.hostname" value="localhost"/>
+  <property name="worklight.port" value="10080"/>
+  <property name="worklight.username" value=""/>
+  <property name="worklight.password" value=""/>
+  <property name="worklight.app.dir" value=""/>
+  <property name="worklight.app.environments" value="common,iphone,android,blackberry10,windowsPhone8,windows8,ipad,mobileWebApp"/>
+  -->
+  <!--
+  <property name="worklight.ant.tools.dir" value="C:/Program Files/IBM/MobileFirst-CLI/mobilefirst-cli/node_modules/generator-worklight-server/ant-tools"/>
+  <property name="worklight.jars.dir" value="C:/Program Files/IBM/MobileFirst-CLI/mobilefirst-cli/node_modules/generator-worklight-server/lib"/>
+  <property name="worklight.server.install.dir" value=""/>
+  <property name="worklight.hostname" value="localhost"/>
+  <property name="worklight.port" value="10080"/>
+  <property name="worklight.username" value=""/>
+  <property name="worklight.password" value=""/>
+  <property name="worklight.app.dir" value="mfpf_application"/>
+  <property name="worklight.app.environments" value="android"/>
+  
+  -->
+  <echo message="ANT TOOLS DIR: ${worklight.ant.tools.dir}" />
+  
+  
+  
+  
+
+  <basename property="ProjectName" file="${basedir}"/>
+  <mkdir dir="bin/classes"/>
+  <!-- Try to guess some property values -->
+  <!--
+  <condition property="worklight.server.install.dir" value="${worklight.server.install.dir}" else="">
+    <isset property="worklight.server.install.dir" />
+  </condition>
+  <condition property="worklight.jars.dir" value="${worklight.jars.dir}" else="${worklight.server.install.dir}/WorklightServer">
+    <isset property="worklight.jars.dir" />
+  </condition>
+  <condition property="worklight.ant.tools.dir" value="${worklight.ant.tools.dir}" else="${worklight.jars.dir}/../ant-tools">
+    <isset property="worklight.ant.tools.dir" />
+  </condition>
+  <condition property="worklight.hostname" value="${worklight.hostname}" else="localhost">
+    <isset property="worklight.hostname" />
+  </condition>
+  <condition property="worklight.port" value="${worklight.port}" else="10080">
+    <isset property="worklight.port" />
+  </condition>
+  <condition property="worklight.properties.file" value="${worklight.properties.file}" else="">
+    <isset property="worklight.properties.file" />
+  </condition>
+  <condition property="derby.databases.data.dir" value="${derby.databases.data.dir}" else="${worklight.server.install.dir}/derby/${ProjectName}">
+    <isset property="derby.databases.data.dir" />
+  </condition>
+  <condition property="contextroot" value="${contextroot}" else="/${ProjectName}">
+    <isset property="contextroot" />
+  </condition>
+  <condition property="shortcuts.dir" value="${shortcuts.dir}" else="${basedir}/shortcuts">
+    <isset property="shortcuts.dir" />
+  </condition>
+  <condition property="reports.dir" value="${reports.dir}" else="${basedir}/reports">
+    <isset property="reports.dir" />
+  </condition>
+  <condition property="worklight.project.war.file" value="${worklight.project.war.file}" else="${basedir}/bin/${ProjectName}.war">
+    <isset property="worklight.project.war.file" />
+  </condition>
+  <condition property="was.liberty.install.dir" value="${was.liberty.install.dir}" else="${worklight.server.install.dir}">
+    <isset property="was.liberty.install.dir" />
+  </condition>
+  <condition property="was.liberty.server.name" value="${was.liberty.server.name}" else="worklight">
+    <isset property="was.liberty.server.name" />
+  </condition>
+  <condition property="worklight.server" value="${worklight.server}" else="http://${worklight.hostname}:${worklight.port}">
+    <isset property="worklight.server" />
+  </condition>
+  <condition property="worklight.server.host" value="${worklight.server.host}" else="${worklight.server}/${ProjectName}">
+    <isset property="worklight.server.host" />
+  </condition>
+  <condition property="worklight.admin.url" value="${worklight.admin.url}" else="${worklight.server}/worklightadmin">
+    <isset property="worklight.admin.url" />
+  </condition>
+  <condition property="worklight.username" value="${worklight.username}" else="admin">
+    <isset property="worklight.username" />
+  </condition>
+  <condition property="worklight.password" value="${worklight.password}" else="admin">
+    <isset property="worklight.password" />
+  </condition>
+  <condition property="demo.password" value="${demo.password}" else="demo">
+    <isset property="demo.password" />
+  </condition>
+-->
+<echo message="TOOLS DIR LOCATION: ${worklight.ant.tools.dir}/worklight-ant-builder.jar" />
+  <taskdef resource="com/worklight/ant/defaults.properties">
+    <classpath>
+      <pathelement location="${worklight.ant.tools.dir}/worklight-ant-builder.jar"/>
+    </classpath>
+  </taskdef>
+  <taskdef resource="com/worklight/ant/defaults.properties">
+    <classpath>
+      <pathelement location="${worklight.jars.dir}/worklight-ant-deployer.jar"/>
+    </classpath>
+  </taskdef>
+  <!-- new wladm tasks -->
+  <taskdef resource="com/worklight/ant/deployers/antlib.xml">
+    <classpath>
+      <pathelement location="${worklight.jars.dir}/worklight-ant-deployer.jar"/>
+    </classpath>
+  </taskdef>
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${worklight.jars.dir}/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+  <taskdef resource="com/worklight/upgrader/ant/defaults.properties">
+    <classpath>
+      <pathelement location="${worklight.ant.tools.dir}/worklight-upgrader.jar"/>
+      <pathelement location="${worklight.ant.tools.dir}/worklight-ant-builder.jar"/>
+    </classpath>
+  </taskdef>
+  <taskdef resource="com/worklight/ant/defaults.properties">
+    <classpath>
+      <pathelement location="${worklight.jars.dir}/worklight-ant-keystore-generator.jar" />
+    </classpath>
+  </taskdef>
+
+  <!-- Classpath for server runtime libraries used when building the WAR -->
+  <path id="server-classpath">
+    <!-- 62856: add <project>/server/lib folder to build classpath -->
+  	<fileset dir="server/lib" includes="*.jar" />
+    <fileset dir="${worklight.jars.dir}/../app/templates/wlp/dev" includes="**/*.jar" />
+    <fileset dir="${worklight.jars.dir}" includes="worklight-jee-library.jar" />
+  </path>
+
+
+
+<basename file="${basedir}" property="ProjectName"/>
+  <taskdef resource="com/worklight/ant/defaults.properties">
+    <classpath>
+      <pathelement location="${worklight.jars.dir}\worklight-ant-builder.jar"/>
+    </classpath>
+  </taskdef>
+<target name="build-All" description="Build MobileFirst adapters and apps for project">
+    <antcall target="build-WAR" />
+    <antcall target="build-Adapters" />
+    <antcall target="build-Apps" /> 
+</target>
+<target name="build-WAR" description="Build worklight WAR for project">
+  <echo message="Building worklight WAR for project ${ProjectName}" />
+  <javac
+    srcdir="server/java"
+    destdir="bin/classes"
+    classpathref="server-classpath"
+    verbose="true"
+    includeantruntime="false"
+  />
+  <war-builder
+    projectfolder="${basedir}"
+    destinationfolder="bin/war"
+    warfile="bin/${ProjectName}.war"
+    classesfolder="bin/classes">
+  </war-builder>
+</target>
+
+<target name="build-Adapters" description="Build MobileFirst adapters for project">
+  <echo message="Build MobileFirst adapters for project ${ProjectName}" />
+  <for param="adapter" trim="true">
+    <path>
+      <dirset dir="adapters">
+        <include name="*"/>
+      </dirset>
+    </path>
+    <sequential>
+      <echo message="Building MobileFirst Adapter @{adapter}" />
+
+      <path id="builder-classpath">
+        <fileset dir="@{adapter}/lib" erroronmissingdir="false">
+          <include name="*.jar" />
+        </fileset>
+        <fileset dir="${worklight.jars.dir}/../app/templates/wlp/dev" includes="**/*.jar" />
+        <fileset dir="${worklight.jars.dir}" includes="worklight-jee-library.jar" />
+      </path>
+
+      <adapter-builder folder="@{adapter}"
+        destinationFolder="bin"
+        classpathref="builder-classpath">
+      </adapter-builder>
+    </sequential>
+  </for>
+</target>
+
+<target name="build-Adapter" description="Build MobileFirst Adapter specified with worklight.adapter.dir for project">
+  <fail unless="worklight.adapter.dir" message="Property worklight.adapter.dir is not set use -D or build.properties"/>
+  <echo message="Build MobileFirst adapter for project ${ProjectName}" />
+  <echo message="Building MobileFirst Adapter ${worklight.adapter.dir}" />
+
+  <path id="builder-classpath">
+    <fileset dir="adapters/${worklight.adapter.dir}/lib" erroronmissingdir="false">
+      <include name="*.jar" />
+    </fileset>
+    <fileset dir="${worklight.jars.dir}/../app/templates/wlp/dev" includes="**/*.jar" />
+    <fileset dir="${worklight.jars.dir}" includes="worklight-jee-library.jar" />
+  </path>
+
+  <adapter-builder folder="adapters/${worklight.adapter.dir}"
+    destinationFolder="bin"
+    classpathref="builder-classpath">
+  </adapter-builder>
+</target>
+
+<!-- Builds a hybrid application. If the build-dojo.xml file is found in the app, it is added as a skin build extension -->
+<macrodef name="build-hybrid">
+  <attribute name="app" />
+  <sequential>
+    <if>
+      <isset property="worklight.app.environments"/>
+      <then>
+        <echo message="Building Hybrid MobileFirst App @{app} for environments=${worklight.app.environments}" />
+        <if>
+          <available file="@{app}/build-dojo.xml" />
+          <then>
+            <!-- Add dojo support if the build-dojo.xml file is present -->
+            <app-builder nativeProjectPrefix="${ProjectName}"
+              applicationFolder="@{app}" outputFolder="bin"
+              worklightServerHost="${worklight.server.host}" environments="${worklight.app.environments}"
+              skinBuildExtensions="build-dojo.xml"
+              minifyResources="${worklight.buildsettings.target.minifyResources}"
+              concatenate="${worklight.buildsettings.target.concatenate}">
+            </app-builder>
+          </then>
+          <else>
+            <app-builder nativeProjectPrefix="${ProjectName}"
+              applicationFolder="@{app}" outputFolder="bin"
+            worklightServerHost="${worklight.server.host}" environments="${worklight.app.environments}"
+              minifyResources="${worklight.buildsettings.target.minifyResources}"
+              concatenate="${worklight.buildsettings.target.concatenate}">
+            </app-builder>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo message="Building Hybrid MobileFirst App @{app}" />
+        <if>
+          <available file="@{app}/build-dojo.xml" />
+          <then>
+            <!-- Add dojo support if the build-dojo.xml file is present -->
+            <app-builder nativeProjectPrefix="${ProjectName}"
+              applicationFolder="@{app}" outputFolder="bin"
+              worklightServerHost="${worklight.server.host}" skinBuildExtensions="build-dojo.xml"
+              minifyResources="${worklight.buildsettings.target.minifyResources}"
+              concatenate="${worklight.buildsettings.target.concatenate}">
+            </app-builder>
+          </then>
+          <else>
+            <app-builder nativeProjectPrefix="${ProjectName}"
+              applicationFolder="@{app}" outputFolder="bin"
+              worklightServerHost="${worklight.server.host}"
+              minifyResources="${worklight.buildsettings.target.minifyResources}"
+              concatenate="${worklight.buildsettings.target.concatenate}">
+            </app-builder>
+          </else>
+        </if>
+      </else>
+    </if>
+  </sequential>
+</macrodef>
+
+<target name="build-Apps" description="Build MobileFirst apps for project">
+  <echo message="Build MobileFirst apps for project ${ProjectName}" />
+  <for param="app" trim="true">
+    <path>
+      <dirset dir="apps">
+        <include name="*"/>
+      </dirset>
+    </path>
+    <sequential>
+      <if>
+        <available file="@{app}/common" />
+        <then>
+          <build-hybrid app="@{app}" />
+        </then>
+        <else>
+          <echo message="Building Native MobileFirst App @{app}" />
+          <native-app-builder
+            sourceFolder="@{app}" DestinationFolder="bin"
+            worklightServerHost="${worklight.server.host}">
+          </native-app-builder>
+        </else>
+      </if>
+    </sequential>
+  </for>
+</target>
+
+<target name="build-App" description="Build MobileFirst App specified with worklight.app.dir and optional worklight.app.environments">
+  <fail unless="worklight.app.dir" message="Property worklight.app.dir is not set use -D or build.properties"/>
+  <echo message="Build MobileFirst App for project ${ProjectName}" />
+      <if>
+        <available file="apps/${worklight.app.dir}/common" />
+        <then>
+          <build-hybrid app="apps/${worklight.app.dir}" />
+        </then>
+        <else>
+          <echo message="Building Native MobileFirst App apps/${worklight.app.dir}" />
+          <native-app-builder
+            sourceFolder="apps/${worklight.app.dir}" DestinationFolder="bin"
+            worklightServerHost="${worklight.server.host}">
+          </native-app-builder>
+        </else>
+      </if>
+</target>
+<target name="help">
+  <basename property="ant.file.basename" file="${ant.file}"/>
+  <echo message="This ant project file can be used in multiple ways"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-WAR"/>
+  <echo message="Builds Worklight WAR file for project"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-Adapters"/>
+  <echo message="Builds MobileFirst Adapters for project"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-Apps"/>
+  <echo message="Builds MobileFirst Apps for project"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-and-deploy"/>
+  <echo message="Build and Deploy MobileFirst adapters and apps for project"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-Adapter"/>
+  <echo message="Build MobileFirst Adapter specified with worklight.adapter.dir for project"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-App"/>
+  <echo message="Build MobileFirst App specified with worklight.app.dir and optional worklight.app.environments"/>
+  <echo/>
+  <echo message="ant -f ${ant.file.basename} build-All"/>
+  <echo message="Build MobileFirst adapters and apps for project"/>
+  <echo/>
+</target>
+
+   <!-- <target name="build-App">
+    <app-builder
+        applicationFolder="apps/mfpf_application"
+        environments="android"
+        nativeProjectPrefix="${ProjectName}"
+        outputFolder="bin"/>
+  </target> -->
+   <target name="all">
+    <war-builder projectfolder="."
+                 destinationfolder="bin/war"
+                 warfile="bin/${ProjectName}.war"
+                 classesFolder="bin/classes"/>
+  </target>
+</project>
