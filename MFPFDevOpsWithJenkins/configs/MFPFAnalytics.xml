@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Builds, Pushes and Start MFPF Analytics Server</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_USER</name>
+          <description>Bluemix user ID or email address</description>
+          <defaultValue>yourid@email.com</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>BLUEMIX_PASSWORD</name>
+          <description>Bluemix password</description>
+          <defaultValue>13ulZ0b8VFVxKu1cdbuxC7P7rWaGTRDqZWfnQlhtg3s=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_ORG</name>
+          <description>Bluemix organization</description>
+          <defaultValue>yourbluemixorganization</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_SPACE</name>
+          <description>Bluemix space</description>
+          <defaultValue>MFPTest</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_REGISTRY</name>
+          <description>IBM Containers Registry Host</description>
+          <defaultValue>registry.ng.bluemix.net</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_CCS_HOST</name>
+          <description>IBM Containers Cloud Service Host</description>
+          <defaultValue>https://containers-api.ng.bluemix.net/v3</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ANALYTICS_IMAGE_TAG</name>
+          <description>The name of the MFPF Analytics image. It should be of the form &lt;BluemixRegistry&gt;/&lt;YourPrivateNamespace&gt;/&lt;ImageName&gt;:&lt;Tag&gt;</description>
+          <defaultValue>registry.ng.bluemix.net/sz_docker/mfpanalytics71</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ANALYTICS_CONTAINER_NAME</name>
+          <description>The name of the Analytics container</description>
+          <defaultValue>mfpAnlytics71</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>ANALYTICS_IP</name>
+          <description>The public IP Address the Analytics container should be bound to</description>
+          <defaultValue>134.168.9.143</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@islrppcxv70.in.ibm.com:MFP_Container.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/mayank</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd $WORKSPACE/MFP_Container/mfpf-analytics/jenkinscript
+
+echo &quot;Logging into Bluemix Container&quot;
+bash initenv.sh -u $BLUEMIX_USER -p $BLUEMIX_PASSWORD -o $BLUEMIX_ORG -s $BLUEMIX_SPACE
+
+echo &quot;Preparing the MobileFirst Platform Analytics Server Image &quot;
+bash prepareanalytics.sh -u $BLUEMIX_USER -p $BLUEMIX_PASSWORD -o $BLUEMIX_ORG -s $BLUEMIX_SPACE -h $BLUEMIX_CCS_HOST -t $ANALYTICS_IMAGE_TAG
+
+echo &quot;Running a MobileFirst Platform Analytics Server Image as a Container &quot;
+bash startanalytics.sh -u $BLUEMIX_USER -p $BLUEMIX_PASSWORD -o $BLUEMIX_ORG -s $BLUEMIX_SPACE -h $BLUEMIX_CCS_HOST -t $ANALYTICS_IMAGE_TAG -n $ANALYTICS_CONTAINER_NAME -i $ANALYTICS_IP
+
+echo &quot;Finish&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>2</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_USER</name>
+          <description>Bluemix user ID or email address</description>
+          <defaultValue>yourid@email.com</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>BLUEMIX_PASSWORD</name>
+          <description>Bluemix password</description>
+          <defaultValue>13ulZ0b8VFVxKu1cdbuxC7P7rWaGTRDqZWfnQlhtg3s=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_ORG</name>
+          <description>Bluemix organization</description>
+          <defaultValue>yourbluemixorganization</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_SPACE</name>
+          <description>Bluemix space</description>
+          <defaultValue>MFPTest</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_REGISTRY</name>
+          <description>IBM Containers Registry Host</description>
+          <defaultValue>registry.ng.bluemix.net</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BLUEMIX_CCS_HOST</name>
+          <description>IBM Containers Cloud Service Host</description>
+          <defaultValue>https://containers-api.ng.bluemix.net/v3</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>RUNTIME_NAME</name>
+          <description>The name of the runtime to be removed.</description>
+          <defaultValue>StarterApplication</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SERVER_IP</name>
+          <description>Public IP Address the server container is bound to</description>
+          <defaultValue>134.168.17.9</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SERVER_PORT</name>
+          <description>The https port that MFPF server listens to</description>
+          <defaultValue>9443</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DB_SRV_NAME</name>
+          <description>Bluemix database service instance name</description>
+          <defaultValue>MFPService</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>APP_NAME</name>
+          <description>Bluemix application name</description>
+          <defaultValue>MFPApp</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>LIBERTY_ADMIN_USERNAME</name>
+          <description>User name of the Liberty administrator role</description>
+          <defaultValue>admin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>LIBERTY_ADMIN_PASSWORD</name>
+          <description>Password of the Liberty administrator role</description>
+          <defaultValue>admin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADMIN_USERNAME</name>
+          <description>User name of MobileFirst Server administrator&quot;</description>
+          <defaultValue>WorklightRESTUser</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADMIN_PASSWORD</name>
+          <description>Password of MobileFirst Server administrator</description>
+          <defaultValue>worklightadmin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CERT_FILE</name>
+          <description></description>
+          <defaultValue>$WORKSPACE/MFP_Container/mfpf-server/usr/security</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@islrppcxv70.in.ibm.com:MFP_Container.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/mayank</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd $WORKSPACE/MFP_Container/mfpf-server/jenkinscript
+
+echo &quot;Removing the Project/Runtime from MobileFirst Platform Foundation Server&quot;
+
+#For Secure removal of projects using certificate
+#bash removeproject.sh -u $BLUEMIX_USER -p $BLUEMIX_PASSWORD -o $BLUEMIX_ORG -s $BLUEMIX_SPACE -h $BLUEMIX_CCS_HOST -rt $RUNTIME_NAME -i $SERVER_IP -sp $SERVER_PORT -lu $LIBERTY_ADMIN_USERNAME -lp $LIBERTY_ADMIN_PASSWORD -au $MFPF_ADMIN_USERNAME -ap $MFPF_ADMIN_PASSWORD -an $APP_NAME -n $DB_SRV_NAME -c $CERT_FILE
+
+#for Unsecure removel of projects
+bash removeproject.sh -u $BLUEMIX_USER -p $BLUEMIX_PASSWORD -o $BLUEMIX_ORG -s $BLUEMIX_SPACE -h $BLUEMIX_CCS_HOST -rt $RUNTIME_NAME -i $SERVER_IP -sp $SERVER_PORT -lu $LIBERTY_ADMIN_USERNAME -lp $LIBERTY_ADMIN_PASSWORD -au $MFPF_ADMIN_USERNAME -ap $MFPF_ADMIN_PASSWORD -an $APP_NAME -n $DB_SRV_NAME
+
+echo &quot;Finish&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

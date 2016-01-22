@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Undeploy adapters and apps from the MobileFirst Platform Foundation Server</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>2</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>SERVER_IP</name>
+          <description>The URL of the MobileFirst Foundation Server</description>
+          <defaultValue>134.168.17.9</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SERVER_PORT</name>
+          <description></description>
+          <defaultValue>9443</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADMIN_USER_NAME</name>
+          <description></description>
+          <defaultValue>admin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADMIN_PASSWORD</name>
+          <description>The password of the MFP admin</description>
+          <defaultValue>admin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>LIBERTY_ADMIN_PASSWORD</name>
+          <description>The password of the liberty admin</description>
+          <defaultValue>admin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADMIN_ROOT</name>
+          <description></description>
+          <defaultValue>worklightadmin</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_RUNTIME_NAME</name>
+          <description>The MFPF runtime name (MFPF Project name)</description>
+          <defaultValue>MFP_Test_Application</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_ADAPTERS</name>
+          <description>List of MFPF Adapter to be undeployed</description>
+          <defaultValue>RSSWriter</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_APPS</name>
+          <description>List of MFPF Apps to be undeployed</description>
+          <defaultValue>Test_App3,Test_App2</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CERT_FILE</name>
+          <description></description>
+          <defaultValue>$WORKSPACE/MFP_Container/mfpf-server/usr/security/ca.crt</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@islrppcxv70.in.ibm.com:MFP_Container.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/mayank</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>cd $WORKSPACE/MFP_Container/mfpf-server/jenkinscript
+
+echo &quot;UnDeploying Adapter and Apps to MobileFirst Platform Foundation Server &quot;
+
+#For secure undeployment using certificate
+#bash undeployMFPFArtifcats.sh -s $SERVER_IP -sp $SERVER_PORT -u $MFPF_ADMIN_USER_NAME -p $MFPF_ADMIN_PASSWORD -r $MFPF_ADMIN_ROOT -rt $MFPF_RUNTIME_NAME -ad $MFPF_ADAPTERS -ap $MFPF_APPS -c $CERT_FILE
+
+#For Unsecure undeployment
+bash undeployMFPFArtifcats.sh -s $SERVER_IP -sp $SERVER_PORT -u $MFPF_ADMIN_USER_NAME -p $MFPF_ADMIN_PASSWORD -r $MFPF_ADMIN_ROOT -rt $MFPF_RUNTIME_NAME -ad $MFPF_ADAPTERS -ap $MFPF_APPS
+
+echo &quot;Finished undeployment of Apps and Adapters&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

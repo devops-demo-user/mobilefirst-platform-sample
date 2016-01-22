@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Copies the MFPF project that is built by BuildMFPFProject Jenkins Job to Container Image Project folder</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>5</daysToKeep>
+    <numToKeep>5</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>MFPF_PROJECT_WORKSPACE</name>
+          <description>Jenkins workspace where the MFP project was built</description>
+          <defaultValue>/var/lib/jenkins/jobs/BuildMFPFProject/workspace</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@islrppcxv70.in.ibm.com:MFP_Container.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#Copy the build MFPF Project from Project repository to corresponding folder in the Container Image Repository
+cp -r $MFPF_PROJECT_WORKSPACE/MFP_Test_Application $WORKSPACE/MFP_Container/mfpf-server/usr/projects
+cp -r $MFPF_PROJECT_WORKSPACE/StarterApplication $WORKSPACE/MFP_Container/mfpf-server/usr/projects
+
+## Adding .gitignore file in each empty directory ###
+for i in $(find . -type d -regex ``./[^.].*&apos;&apos; -empty); do touch $i&quot;/.gitignore&quot;; done;
+
+branch_name=mayank
+NOW=$(date +&quot;%m-%d-%Y&quot;-&quot;%T&quot;)
+echo &quot;Git Add&quot;
+git add .
+echo &quot;Ready to commit&quot;
+git commit -m &quot;Putting Application Code in projects folder at ${NOW}&quot;
+
+echo &quot;Ready to Push&quot;
+git push git@islrppcxv70.in.ibm.com:MFP_Container.git HEAD:${branch_name} -f
+echo &quot;code is pushed successfully&quot;</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>MFPFServer</childProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
+  </publishers>
+  <buildWrappers/>
+</project>
